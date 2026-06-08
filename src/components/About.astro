@@ -1,0 +1,111 @@
+---
+import { site } from '../data/site.js';
+---
+
+<section class="section about" id="about">
+  <div class="container about__grid">
+    <figure class="about__portrait" data-reveal>
+      <picture>
+        <source srcset={site.portraitWebp} type="image/webp" />
+        <img src={site.portrait} alt={`${site.fullName} — ${site.role}`} width="760" height="1013" loading="lazy" decoding="async" />
+      </picture>
+      <figcaption>
+        <span class="about__pname">{site.fullName}</span>
+        <span class="about__prole">{site.role}</span>
+      </figcaption>
+    </figure>
+
+    <div class="about__col">
+      <div class="about__lead" data-reveal>
+        <p class="eyebrow">About</p>
+        <h2 class="about__statement">
+          I produce work where the footage does the talking — cinematic, restrained,
+          and built to land.
+        </h2>
+      </div>
+      <div class="about__body" data-reveal style="--reveal-delay:120ms">
+        <p class="prose">
+          I’m {site.fullName}, a {site.role.toLowerCase()} working across commercials,
+          music videos and film. From concept and casting through the shoot and into the
+          edit, I bring brands and stories to screen — clean frames, intentional motion,
+          nothing wasted.
+        </p>
+        <p class="prose">Based in {site.location}. Available for select projects worldwide.</p>
+
+        <div class="about__clients">
+          <p class="eyebrow">Selected clients</p>
+          <ul class="clients" role="list">
+            {site.clients.map((c) => (
+              <li class="client">
+                {c.logo
+                  ? <img class="client__logo" src={c.logo} alt={c.name} loading="lazy" decoding="async" />
+                  : <span class="client__name">{c.name}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__grid {
+    display: grid; gap: var(--space-2xl); align-items: start;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 60rem) {
+    .about__grid { grid-template-columns: 0.8fr 1.1fr; gap: var(--space-3xl); }
+  }
+
+  .about__portrait { position: relative; margin: 0; }
+  .about__portrait picture { display: block; }
+  .about__portrait img {
+    width: 100%; border-radius: var(--radius-lg);
+    border: 1px solid var(--color-line);
+    /* cinematic tone: gentle warm grade + contrast over the B&W portrait */
+    filter: contrast(1.05) brightness(0.97);
+    aspect-ratio: 3 / 4; object-fit: cover;
+  }
+  .about__portrait::after {
+    content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, transparent 55%, rgba(6,6,6,0.55));
+    mix-blend-mode: multiply; pointer-events: none;
+  }
+  .about__portrait figcaption {
+    position: absolute; left: var(--space-md); bottom: var(--space-md); z-index: 1;
+    display: flex; flex-direction: column;
+  }
+  .about__pname { font-family: var(--font-display); font-size: var(--step-2); line-height: 1; }
+  .about__prole {
+    font-size: var(--step--1); letter-spacing: var(--tracking-wide); text-transform: uppercase;
+    color: var(--color-accent); margin-top: var(--space-2xs);
+  }
+
+  .about__col { display: flex; flex-direction: column; gap: var(--space-xl); }
+  .about__statement { font-size: var(--step-3); text-wrap: balance; }
+  .about__body { display: flex; flex-direction: column; gap: var(--space-md); }
+  .about__clients { margin-top: var(--space-lg); }
+  /* Client logo wall — uniform brand cards. */
+  .clients {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm); margin-top: var(--space-md);
+  }
+  @media (min-width: 30rem) { .clients { grid-template-columns: repeat(3, 1fr); } }
+  .client {
+    display: block; border-radius: var(--radius-md); overflow: hidden;
+    border: 1px solid var(--color-line);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .client:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
+  .client__logo {
+    display: block; width: 100%; aspect-ratio: 420 / 170;
+    object-fit: contain; background: #fff;
+    opacity: 0.9; transition: opacity var(--dur) var(--ease);
+  }
+  .client:hover .client__logo { opacity: 1; }
+  .client__name {
+    display: grid; place-items: center; aspect-ratio: 420 / 170; background: #fff;
+    color: #141414; font-size: var(--step-0); text-align: center;
+  }
+</style>

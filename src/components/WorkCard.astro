@@ -1,0 +1,124 @@
+---
+const { v } = Astro.props;
+const aspect = `${v.width} / ${v.height}`;
+const yearLabel = v.year ? String(v.year) : '';
+const metaLabel = [v.client, yearLabel].filter(Boolean).join(' · ');
+// Siblings (same-shoot clips) live in the DOM for the lightbox's prev/next,
+// but are hidden from the grid itself.
+const isSibling = v.featured === false;
+---
+
+<button
+  class="card"
+  data-card
+  data-category={v.category}
+  data-orientation={v.orientation}
+  data-title={v.title}
+  data-host={v.host}
+  data-youtube={v.youtube ?? ''}
+  data-vimeo={v.vimeo ?? ''}
+  data-src={v.src}
+  data-poster={v.poster}
+  data-w={v.width}
+  data-h={v.height}
+  data-blurb={v.blurb}
+  data-role={v.role}
+  data-meta={metaLabel}
+  data-group={v.group ?? ''}
+  data-sibling={isSibling ? '' : undefined}
+  hidden={isSibling}
+  style={`--card-aspect:${aspect}`}
+  aria-label={`Play ${v.title}`}
+>
+  <span class="card__media">
+    <picture>
+      <source srcset={v.posterWebp} type="image/webp" />
+      <img
+        class="card__poster"
+        src={v.poster}
+        alt={v.title}
+        loading="lazy"
+        decoding="async"
+        width={v.width}
+        height={v.height}
+      />
+    </picture>
+    {v.preview && (
+      <video
+        class="card__preview"
+        muted loop playsinline preload="none"
+        data-preview-src={v.preview}
+        aria-hidden="true" tabindex="-1"
+      ></video>
+    )}
+    <span class="card__play" aria-hidden="true">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="23" stroke="currentColor" stroke-opacity="0.85" stroke-width="1.2"/>
+        <path d="M20 17l11 7-11 7V17z" fill="currentColor"/>
+      </svg>
+    </span>
+  </span>
+
+  <span class="card__info">
+    <span class="card__title">{v.title}</span>
+    {metaLabel && <span class="card__meta">{metaLabel}</span>}
+  </span>
+</button>
+
+<style>
+  .card {
+    display: block; width: 100%; text-align: left; color: inherit;
+    break-inside: avoid; margin-bottom: var(--grid-gap);
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Filtering sets [hidden]; this beats the .card display rule so it actually hides. */
+  .card[hidden] { display: none !important; }
+  .card__media {
+    position: relative; display: block; overflow: hidden;
+    border-radius: var(--radius-md); background: var(--color-bg-elev);
+    aspect-ratio: var(--card-aspect);
+    border: 1px solid var(--color-line);
+  }
+  .card__poster, .card__preview {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  }
+  .card__poster { transition: transform var(--dur-slow) var(--ease), opacity var(--dur) var(--ease); }
+  .card__preview { opacity: 0; transition: opacity var(--dur) var(--ease); }
+  .card.is-previewing .card__preview { opacity: 1; }
+
+  .card__play {
+    position: absolute; inset: 0; margin: auto; width: 48px; height: 48px;
+    display: grid; place-items: center; color: var(--color-text);
+    opacity: 0; transform: scale(0.9); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+    pointer-events: none;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  }
+  .card__media::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(6,6,6,0.5));
+    opacity: 0; transition: opacity var(--dur) var(--ease);
+  }
+
+  @media (hover: hover) {
+    .card:hover .card__poster, .card:focus-visible .card__poster { transform: scale(1.04); }
+    .card:hover .card__play, .card:focus-visible .card__play { opacity: 1; transform: scale(1); }
+    .card:hover .card__media::after, .card:focus-visible .card__media::after { opacity: 1; }
+  }
+
+  .card__info {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2xs) var(--space-sm);
+    padding: var(--space-sm) var(--space-2xs) 0;
+  }
+  .card__title {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: var(--step-1); letter-spacing: var(--tracking-tight); line-height: 1.1;
+  }
+  .card__meta {
+    font-size: var(--step--1); color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card__poster, .card__play { transition: none; }
+  }
+</style>

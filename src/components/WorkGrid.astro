@@ -1,0 +1,60 @@
+---
+import videos from '../data/videos.json';
+import { categories } from '../data/site.js';
+import WorkCard from './WorkCard.astro';
+---
+
+<section class="section work" id="work">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Selected Work</p>
+      <h2 class="work__title">A reel of the things we’ve made.</h2>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filter work by category" data-filters>
+      {categories.map((c, i) => (
+        <button
+          class={`chip${i === 0 ? ' is-active' : ''}`}
+          data-filter={c.key}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+        >{c.label}</button>
+      ))}
+    </div>
+
+    <div class="grid" data-grid>
+      {videos.map((v) => <WorkCard v={v} />)}
+    </div>
+    <p class="grid__empty" data-empty hidden>No pieces in this category yet.</p>
+  </div>
+</section>
+
+<style>
+  .work__title { font-size: var(--step-3); max-width: 18ch; }
+
+  .filters {
+    display: flex; flex-wrap: wrap; gap: var(--space-xs);
+    margin-bottom: var(--space-xl);
+  }
+  .chip {
+    font-size: var(--step--1); letter-spacing: 0.03em;
+    padding: var(--space-xs) var(--space-md);
+    border: 1px solid var(--color-line); border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+  }
+  .chip:hover, .chip:focus-visible { color: var(--color-text); border-color: var(--color-line-strong); }
+  .chip.is-active {
+    color: #0a0a0a; background: var(--color-text); border-color: var(--color-text);
+  }
+
+  /* Masonry via multi-column — keeps native aspect ratios, no cropping. */
+  .grid {
+    column-count: 1;
+    column-gap: var(--grid-gap);
+  }
+  @media (min-width: 36rem)  { .grid { column-count: 2; } }
+  @media (min-width: 60rem)  { .grid { column-count: 3; } }
+  @media (min-width: 100rem) { .grid { column-count: 4; } }
+
+  .grid__empty { color: var(--color-text-muted); padding-block: var(--space-2xl); text-align: center; }
+</style>

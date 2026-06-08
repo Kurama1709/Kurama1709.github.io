@@ -1,0 +1,35 @@
+# --- deps / build ---
+node_modules/
+dist/
+.astro/
+.DS_Store
+*.log
+
+# --- raw source footage (never commit — multi-GB) ---
+/_originals/
+/*.mp4
+/*.PNG
+/*.png
+/*.jpeg
+/*.tiff
+/*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# --- clips served from the droplet CDN / YouTube — keep heavy files out of the repo ---
+public/media/video/commercial_borofone_launch-film_1080p.mp4
+public/media/video/commercial_mamee_monster_1080p-v.mp4
+public/media/video/commercial_atom_brand-film_1080p.mp4
+public/media/video/commercial_daisy_spot_1080p.mp4
+public/media/video/commercial_daisy_spot-alt_1080p.mp4
+public/media/video/film_kan-kaung_trailer_1080p.mp4
+public/media/video/mv_phyo-myat-aung_music-video_1080p.mp4
+public/media/video/mv_99-symphony_lu-twe-ka-khet.mp4
+public/media/video/mv_a-mhat-taya-nway_theme-song_1080p.mp4
+public/media/video/event_new-age-creative_day-4_4k.mp4
+public/media/video/event_new-age-creative_day-2_4k.mp4
+public/media/video/event_new-age-creative_day-3_4k.mp4
+public/media/video/event_new-age-creative_dj-set_4k.mp4
+
+/media/

@@ -1,0 +1,60 @@
+---
+import { site } from '../data/site.js';
+---
+
+<header class="nav" data-nav>
+  <div class="container nav__inner">
+    <a class="nav__brand" href="#top" aria-label={`${site.name} — home`}>
+      <span class="nav__mark">{site.name}</span>
+      <span class="nav__role">{site.role}</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: var(--z-nav);
+    transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    border-bottom: 1px solid transparent;
+  }
+  .nav.is-scrolled {
+    background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+    -webkit-backdrop-filter: var(--blur-nav);
+    backdrop-filter: var(--blur-nav);
+    border-bottom-color: var(--color-line);
+  }
+  .nav__inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-block: var(--space-md);
+  }
+  .nav__brand { display: flex; align-items: baseline; gap: var(--space-sm); }
+  .nav__mark {
+    font-family: var(--font-display); font-size: var(--step-1);
+    letter-spacing: var(--tracking-tight);
+  }
+  .nav__role {
+    font-size: var(--step--1); letter-spacing: var(--tracking-wide);
+    text-transform: uppercase; color: var(--color-text-muted);
+  }
+  .nav__links { display: flex; gap: clamp(1rem, 0.5rem + 2vw, 2.5rem); }
+  .nav__links a {
+    font-size: var(--step--1); letter-spacing: 0.04em; color: var(--color-text-muted);
+    position: relative; padding-block: var(--space-2xs); transition: color var(--dur) var(--ease);
+  }
+  .nav__links a::after {
+    content: ''; position: absolute; left: 0; bottom: -2px; height: 1px; width: 0;
+    background: var(--color-accent); transition: width var(--dur) var(--ease);
+  }
+  .nav__links a:hover, .nav__links a:focus-visible { color: var(--color-text); }
+  .nav__links a:hover::after, .nav__links a:focus-visible::after { width: 100%; }
+
+  @media (max-width: 30rem) {
+    .nav__role { display: none; }
+    .nav__links { gap: var(--space-md); }
+  }
+</style>

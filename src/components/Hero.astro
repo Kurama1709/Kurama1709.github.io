@@ -1,0 +1,113 @@
+---
+import { site } from '../data/site.js';
+---
+
+<section class="hero" id="top">
+  <div class="hero__media" data-parallax>
+    <!-- Poster is the LCP image; video starts on intent (JS, non-reduced-motion). -->
+    <video
+      class="hero__video"
+      data-hero-video
+      poster="/media/poster/hero.jpg"
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <source data-src="/media/video/hero-loop.mp4" type="video/mp4" />
+    </video>
+    <div class="hero__scrim"></div>
+  </div>
+
+  <div class="container hero__inner">
+    <p class="eyebrow" data-reveal>{site.role}</p>
+    <h1 class="hero__name" data-reveal style="--reveal-delay:80ms">
+      {site.name}
+    </h1>
+    <p class="hero__tagline" data-reveal style="--reveal-delay:160ms">
+      {site.tagline}
+    </p>
+    <p class="hero__sub" data-reveal style="--reveal-delay:220ms">
+      {site.heroSub}
+    </p>
+    <div class="hero__cta" data-reveal style="--reveal-delay:300ms">
+      <a class="btn" href="#work">
+        View the work
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 2v12M8 14l4-4M8 14l-4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#work" aria-label="Scroll to work">
+    <span></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative; min-height: 100svh;
+    display: flex; align-items: flex-end;
+    padding-bottom: clamp(3rem, 2rem + 6vw, 7rem);
+    overflow: hidden;
+  }
+  .hero__media { position: absolute; inset: 0; z-index: 0; }
+  .hero__video {
+    width: 100%; height: 100%; object-fit: cover;
+    /* slightly oversize for parallax travel without showing edges */
+    transform: scale(1.08);
+  }
+  .hero__scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.15) 35%, rgba(10,10,10,0.85) 100%),
+      radial-gradient(120% 80% at 20% 100%, rgba(10,10,10,0.6), transparent 60%);
+  }
+  .hero__inner { position: relative; z-index: 1; }
+  .hero__name {
+    font-size: var(--step-5);
+    margin-block: 0.1em 0.15em;
+    text-wrap: balance;
+  }
+  .hero__tagline {
+    font-size: var(--step-2); color: var(--color-text);
+    max-width: 22ch; line-height: 1.15; letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .hero__sub {
+    font-size: var(--step-0); color: var(--color-text-muted);
+    max-width: 42ch; margin-top: var(--space-sm); line-height: 1.5;
+  }
+
+  .hero__cta { margin-top: var(--space-lg); }
+  .btn {
+    display: inline-flex; align-items: center; gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    border: 1px solid var(--color-line-strong); border-radius: var(--radius-pill);
+    font-size: var(--step-0); letter-spacing: 0.01em;
+    transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .btn svg { transition: transform var(--dur) var(--ease); }
+  .btn:hover, .btn:focus-visible {
+    background: var(--color-text); color: #0a0a0a; border-color: var(--color-text);
+  }
+  .btn:hover svg, .btn:focus-visible svg { transform: translateY(3px); }
+
+  .hero__scroll {
+    position: absolute; left: 50%; bottom: var(--space-lg); translate: -50% 0; z-index: 1;
+    width: 24px; height: 38px; border: 1px solid var(--color-line-strong); border-radius: var(--radius-pill);
+    display: grid; place-items: start center; padding-top: 7px;
+  }
+  .hero__scroll span {
+    width: 3px; height: 8px; border-radius: var(--radius-pill); background: var(--color-text-muted);
+    animation: scrollpip 1.8s var(--ease-inout) infinite;
+  }
+  @keyframes scrollpip { 0% { opacity: 0; transform: translateY(-2px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(10px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__video { transform: none; }
+    .hero__scroll span { animation: none; }
+  }
+</style>

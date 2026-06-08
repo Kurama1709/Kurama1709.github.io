@@ -1,0 +1,16 @@
+{
+  "name": "nyanproduction",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Nyan — Creative Producer portfolio",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview --host"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.4.0",
+    "astro": "^5.13.0",
+    "lenis": "^1.3.23"
+  }
+}
