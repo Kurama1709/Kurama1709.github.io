@@ -11,10 +11,12 @@ const ogImage = new URL('/og-image.jpg', site.url).href;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: site.name,
+  name: site.fullName || site.name,
   jobTitle: site.role,
   url: site.url,
   email: `mailto:${site.email}`,
+  telephone: site.phone,
+  address: { '@type': 'PostalAddress', addressLocality: site.location },
   description: site.description,
   sameAs: site.socials.filter((s) => s.href).map((s) => s.href),
 };

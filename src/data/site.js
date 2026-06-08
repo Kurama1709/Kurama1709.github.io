@@ -14,6 +14,9 @@ export const site = {
   portrait: '/media/nyan-portrait.jpg',
   portraitWebp: '/media/nyan-portrait.webp',
   location: 'Yangon, Myanmar',
+  // Studio phone (E.164 for the tel: link; a display version is derived in Contact).
+  phone: '+959797933308',
+  phoneDisplay: '+95 9 797 933 308',
   // Primary inquiry address (used for the main CTA + structured data).
   email: 'director@nyanproduction.me',
   // The team — shown in the contact section.
